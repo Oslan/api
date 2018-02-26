@@ -1,0 +1,104 @@
+package com.parque.service;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.parque.dao.ClienteDAO;
+import com.parque.dao.DependenteDAO;
+import com.parque.domain.Cliente;
+import com.parque.domain.Dependente;
+import com.parque.dto.Error;
+import com.parque.dto.ErrorList;
+
+
+@Service
+public class ClienteService {
+	
+	private ClienteDAO clienteDAO;
+	private DependenteDAO dependenteDAO;
+	
+	 public ResponseEntity<?> getDependentesByIdCliente(Long id){
+		 ErrorList error = new ErrorList();
+		 
+		 List dependentes= dependenteDAO.getInstance().getDependentesByIdCliente(id);
+		 
+		 error.setMsg("sucsess");
+		 error.setCod(200);
+		 error.setObj(dependentes);
+		 
+		 return ResponseEntity
+	    			.status(HttpStatus.OK)
+	    			.body(error);
+	 }
+	
+	 public ResponseEntity<?>saveDependente(Dependente dependente){
+		 
+		dependenteDAO.getInstance().persist(dependente);
+		 Error error = new Error();
+		
+		 error.setMsg("sucsess");
+		 error.setCod(200);
+		 error.setObj(dependente);
+		 
+		 return ResponseEntity
+	    			.status(HttpStatus.OK)
+	    			.body(error);
+	 } 
+	
+	 public ResponseEntity<?>saveCliente(Cliente cliente){
+		 
+		 cliente=new Cliente();
+		 cliente.setNome("Marcos Vincius Almeida Aguiar");
+		 cliente.setEmail("marcos_aguiar@gmail.com");
+		 cliente.setFoto(new String("/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMdaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjUtYzAyMSA3OS4xNTU3NzIsIDIwMTQvMDEvMTMtMTk6NDQ6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjUwNUJFQTVDNDk5NzExRTc5MUMyOUY2RjM5QTdDNzY2IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjUwNUJFQTVCNDk5NzExRTc5MUMyOUY2RjM5QTdDNzY2IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE0IFdpbmRvd3MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0iRTE5NkM5MENDMDQ0QTVDQjg0NzNGNDgzRjE5QUU2MjgiIHN0UmVmOmRvY3VtZW50SUQ9IkUxOTZDOTBDQzA0NEE1Q0I4NDczRjQ4M0YxOUFFNjI4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwM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"));
+		
+		 clienteDAO.getInstance().persist(cliente);
+
+		 Error error = new Error();
+		 
+		 error.setMsg("sucsess");
+		 error.setCod(200);
+		 error.setObj(cliente);
+		
+	    	return ResponseEntity
+	    			.status(HttpStatus.OK)
+	    			.body(error);
+	  }
+	 
+
+	 public ResponseEntity<?>getClientes(){
+		 
+		List<?> clientes = clienteDAO.getInstance().findAll();
+
+	    	return ResponseEntity
+	    			.status(HttpStatus.OK)
+	    			.body(clientes);
+	    	
+	  }
+	 
+	 public ResponseEntity<?>getClienteById(Long id){
+		 
+			Cliente  cliente = clienteDAO.getInstance().getById(id);
+
+		    	return ResponseEntity
+		    			.status(HttpStatus.OK)
+		    			.body(cliente);
+		    	
+		  }
+	 
+	
+	 
+	 public ResponseEntity<?> getClientesWidhConta(){
+		 
+			
+		    	return ResponseEntity
+		    			.status(HttpStatus.OK)
+		    			.body(clienteDAO.getInstance().getClientesWidhConta());
+		    	
+		  }
+	  
+	  
+}
