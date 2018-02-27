@@ -40,6 +40,19 @@ public class ContaDAO {
 	
 	}
 	
+	
+	 public void merge(Conta conta) {
+	        try {
+	        	
+	                 entityManager.getTransaction().begin();
+	                 entityManager.merge(conta);
+	                 entityManager.getTransaction().commit();
+	        } catch (Exception ex) {
+	                 ex.printStackTrace();
+	                 entityManager.getTransaction().rollback();
+	        }
+		 }
+	 
 	 public void persist(Conta conta) {
         try {
         	System.out.println(conta.getCliente().getId());
@@ -74,6 +87,29 @@ public class ContaDAO {
 		  	
 		  
 		  return list;
+	  }
+	  
+	  public Conta getContaByCartao(String cod){
+		  System.out.println(cod);
+		 Conta conta =null;
+		 try {
+		  entityManager.getTransaction().begin();
+		 	  
+		  	Query query= entityManager.createQuery("SELECT c FROM Conta c WHERE c.cartao.codigo = :cod");
+		  	query.setParameter("cod",  cod );
+		 
+		  	conta = (Conta) query.getSingleResult();
+		  		entityManager.getTransaction().commit();
+		 
+		  	
+		 }catch (Exception e) {
+			conta=null;
+			if(entityManager.getTransaction().isActive()) {
+				entityManager.getTransaction().rollback();
+				
+			}
+		}
+		  return conta;
 	  }
 	  
 }

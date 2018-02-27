@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CONTAS")
 public class Conta implements Serializable {
+	
 	/**
 	 * 
 	 */
@@ -31,6 +32,10 @@ public class Conta implements Serializable {
 	@OneToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="id", nullable=false)
 	private Cliente cliente;
+	
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="id_cartao", nullable=true)
+	private Cartao cartao;
 	
 	public Conta() {}
 	
@@ -81,6 +86,16 @@ public class Conta implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+	
+
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import com.parque.dao.DependenteDAO;
 import com.parque.domain.Cliente;
 import com.parque.domain.Dependente;
 import com.parque.dto.Error;
-import com.parque.dto.ErrorList;
+
 
 
 @Service
@@ -21,7 +21,7 @@ public class ClienteService {
 	private DependenteDAO dependenteDAO;
 	
 	 public ResponseEntity<?> getDependentesByIdCliente(Long id){
-		 ErrorList error = new ErrorList();
+		 Error error = new Error();
 		 
 		 List dependentes= dependenteDAO.getInstance().getDependentesByIdCliente(id);
 		 

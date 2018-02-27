@@ -1,37 +1,31 @@
 package com.parque.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Calendar;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DEPENDENTES")
-public class Dependente implements Serializable {
+@Table(name="RECARGAS")
+public class Recarga implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	private String nome;
-	private Integer idade;
+	private String codigo;
+	private Calendar calendar;
+	private BigDecimal valor;
 	
 	@ManyToOne()
-	private Cliente cliente;
-	
-	@Column(columnDefinition="TEXT")
-	private String foto;
+	private Conta conta;
 
 	public Long getId() {
 		return id;
@@ -41,37 +35,36 @@ public class Dependente implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
-	public Integer getIdade() {
-		return idade;
+	public Calendar getCalendar() {
+		return calendar;
 	}
 
-	public void setIdade(Integer idade) {
-		this.idade = idade;
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
 	}
 
-	public String getFoto() {
-		return foto;
+	public BigDecimal getValor() {
+		return valor;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-	
-
-	public Cliente getCliente() {
-		return cliente;
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public Conta getConta() {
+		return conta;
+	}
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
 	}
 
 	@Override
@@ -90,7 +83,7 @@ public class Dependente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Dependente other = (Dependente) obj;
+		Recarga other = (Recarga) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -98,6 +91,7 @@ public class Dependente implements Serializable {
 			return false;
 		return true;
 	}
-
 	
+	
+
 }

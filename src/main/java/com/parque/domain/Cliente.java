@@ -2,11 +2,14 @@ package com.parque.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +24,10 @@ public class Cliente  implements Serializable {
 	private String nome;
 	private String email;
 	
+	@OneToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name="id", nullable=false)
+	private Endereco endereco;
+
 	@Column(columnDefinition = "TEXT") 
 	private String foto;
 	public Cliente() {}
@@ -64,6 +71,16 @@ public class Cliente  implements Serializable {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+	
+	
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

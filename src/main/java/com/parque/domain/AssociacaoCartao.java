@@ -1,37 +1,35 @@
 package com.parque.domain;
 
 import java.io.Serializable;
-
-import javax.persistence.Column;
+import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="DEPENDENTES")
-public class Dependente implements Serializable {
-
-	/**
-	 * 
-	 */
+@Table(name="ASSOCIACOES_CARTAO")
+public class AssociacaoCartao implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	private String nome;
-	private Integer idade;
+	private String codigo;
+	private Calendar data;
 	
 	@ManyToOne()
-	private Cliente cliente;
+	private Conta conta;
 	
-	@Column(columnDefinition="TEXT")
-	private String foto;
+	@OneToOne(cascade=CascadeType.DETACH)
+	@JoinColumn(name="id", nullable=false)
+	private Recarga recarga;
 
 	public Long getId() {
 		return id;
@@ -41,37 +39,36 @@ public class Dependente implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getCodigo() {
+		return codigo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
-	public Integer getIdade() {
-		return idade;
+	public Calendar getData() {
+		return data;
 	}
 
-	public void setIdade(Integer idade) {
-		this.idade = idade;
+	public void setData(Calendar data) {
+		this.data = data;
 	}
 
-	public String getFoto() {
-		return foto;
+	public Conta getConta() {
+		return conta;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
-	
+	public void setConta(Conta conta) {
+		this.conta = conta;
+	}	
 
-	public Cliente getCliente() {
-		return cliente;
+	public Recarga getRecarga() {
+		return recarga;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setRecarga(Recarga recarga) {
+		this.recarga = recarga;
 	}
 
 	@Override
@@ -90,7 +87,7 @@ public class Dependente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Dependente other = (Dependente) obj;
+		AssociacaoCartao other = (AssociacaoCartao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -98,6 +95,8 @@ public class Dependente implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
+	
 	
 }
